@@ -13,6 +13,7 @@ python-dotenv
 groq
 pydantic
 numpy
+sentence-transformers
 scikit-learn
 tiktoken
 pysqlite3-binary
