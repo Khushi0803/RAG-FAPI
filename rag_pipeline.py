@@ -1,3 +1,6 @@
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import os
 from langchain_community.document_loaders import PyPDFLoader, PyMuPDFLoader
 # ✅ Text splitters (moved to separate package)
