@@ -81,15 +81,15 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # Emedding Manager
 class EmeddingManager:
-    def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
-        from sentence_transformers import SentenceTransformer
+    def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
+        from fastembed import TextEmbedding
         print(f"Loading embedding model: {model_name}")
-        self.model = SentenceTransformer(model_name)
+        self.model = TextEmbedding(model_name=model_name)
         print("Embedding manager ready")
 
     def generate_emeddings(self, texts):
         import numpy as np
-        embeddings = self.model.encode(texts, show_progress_bar=False)
+        embeddings = list(self.model.embed(texts))
         return np.array(embeddings).astype(np.float32)
       
   
