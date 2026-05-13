@@ -15,7 +15,7 @@ class QueryRequest(BaseModel):
 
 def init_retriever():
     global retriever, retriever_ready
-    print("Rebuilding vector store with SentenceTransformer...")
+    print("Rebuilding vector store with fastembed...")
     build_and_save_vectorstore()
     retriever = load_retriever()
     retriever_ready = True
