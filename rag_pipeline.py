@@ -82,35 +82,17 @@ from sklearn.metrics.pairwise import cosine_similarity
 # Emedding Manager
 class EmeddingManager:
     def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
-        import pickle
-        from sklearn.feature_extraction.text import TfidfVectorizer
-        
-        self.vectorizer = TfidfVectorizer(max_features=384)
-        self._fitted = False
-        self._vocab_path = "tfidf_vocab.pkl"
-        
-        if os.path.exists(self._vocab_path):
-            with open(self._vocab_path, "rb") as f:
-                self.vectorizer = pickle.load(f)
-            self._fitted = True
-            print("Embedding manager ready — loaded existing vocabulary")
-        else:
-            print("Embedding manager ready — will fit on first use")
+        from sentence_transformers import SentenceTransformer
+        print(f"Loading embedding model: {model_name}")
+        self.model = SentenceTransformer(model_name)
+        print("Embedding manager ready")
 
     def generate_emeddings(self, texts):
         import numpy as np
-        import pickle
-        
-        if not self._fitted:
-            print(f"Fitting on {len(texts)} texts...")
-            self.vectorizer.fit(texts)
-            self._fitted = True
-            with open(self._vocab_path, "wb") as f:
-                pickle.dump(self.vectorizer, f)
-            print("Vocabulary saved")
-        
-        embeddings = self.vectorizer.transform(texts).toarray()
-        return embeddings.astype(np.float32)
+        embeddings = self.model.encode(texts, show_progress_bar=False)
+        return np.array(embeddings).astype(np.float32)
+      
+  
 
         """class EmeddingManager:
             #Handles document embedding generation using SentenceTransformer
